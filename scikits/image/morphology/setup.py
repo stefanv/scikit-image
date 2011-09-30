@@ -22,7 +22,9 @@ def configuration(parent_package='', top_path=None):
                          include_dirs=[get_numpy_include_dirs()])
     config.add_extension('_cpmorphology', sources=['cpmorphology.c'],
                          include_dirs=[get_numpy_include_dirs()])
-    config.add_extension('_cpmorphology2', sources=['_cpmorphology2.pyx'],
+    config.add_extension('_cpmorphology2', sources=['_cpmorphology2.c'],
+                         include_dirs=[get_numpy_include_dirs()])
+    config.add_extension('_watershed', sources=['_watershed.c'],
                          include_dirs=[get_numpy_include_dirs()])
 
     return config
