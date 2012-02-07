@@ -1,2 +1,2 @@
 from find_contours import find_contours
-from _ssim import *
+from _structural_similarity import *
