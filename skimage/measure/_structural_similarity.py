@@ -19,7 +19,7 @@ def structural_similarity(X, Y, win_size=7,
 
     Parameters
     ----------
-    X, Y : (N, N) ndarray
+    X, Y : (M, N) ndarray
         Images to compare.
     win_size : int
         The side-length of the sliding window used in comparison.  Must
@@ -35,7 +35,7 @@ def structural_similarity(X, Y, win_size=7,
     -------
     s : float
         Mean structural similarity.
-    grad : (N * N,) ndarray
+    grad : (M, N) ndarray
         Gradient of the structural similarity index between X and Y.
         This is only returned if `gradient` is set to True.
 
