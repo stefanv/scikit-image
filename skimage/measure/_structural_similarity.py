@@ -7,29 +7,39 @@ import numpy as np
 from ..util.dtype import dtype_range
 from ..util.shape import view_as_windows
 
+
 def structural_similarity(X, Y, win_size=7,
-                          gradient=False, dynamic_range=None):
+                          gradient=False, dynamic_range='dtype'):
     """Compute the mean structural similarity index between two images.
+
+    If images `X` and `Y` are identical, the mean structural similarity (MSSIM)
+    is 1, while very distinct images will approach 0. MSSIM can be used to
+    assess the quality of image compression, filtering, etc. relative to
+    a reference image.
 
     Parameters
     ----------
-    X, Y : (N,N) ndarray
-        Images.
+    X, Y : (M, N) ndarray
+        Images to compare.
     win_size : int
         The side-length of the sliding window used in comparison.  Must
         be an odd value.
     gradient : bool
         If True, also return the gradient.
-    dynamic_range : int
+    dynamic_range : int or {'dtype' | 'image1' | 'image2'}
         Dynamic range of the input image (distance between minimum and
-        maximum possible values).  By default, this is estimated from
-        the image data-type.
+        maximum possible values). You can specify special keywords
+        to calculate the dynamic range automatically:
+
+        'dtype': estimate range from the image data-type.
+        'image1': estimate range from the min/max of input image `X`
+        'image2': estimate range from the min/max of input image `Y`
 
     Returns
     -------
     s : float
-        Strucutural similarity.
-    grad : (N * N,) ndarray
+        Mean structural similarity.
+    grad : (M, N) ndarray
         Gradient of the structural similarity index between X and Y.
         This is only returned if `gradient` is set to True.
 
@@ -50,9 +60,17 @@ def structural_similarity(X, Y, win_size=7,
     if not (win_size % 2 == 1):
         raise ValueError('Window size must be odd.')
 
-    if dynamic_range is None:
-        dmin, dmax = dtype_range[X.dtype.type]
-        dynamic_range = dmax - dmin
+    if isinstance(dynamic_range, basestring):
+        if dynamic_range == 'dtype':
+            dmin, dmax = dtype_range[X.dtype.type]
+            dynamic_range = dmax - dmin
+        elif dynamic_range == 'image1':
+            dynamic_range = X.max() - X.min()
+        elif dynamic_range == 'image2':
+            dynamic_range = Y.max() - Y.min()
+        else:
+            msg = "Unrecognized input: %s for `dynamic_range`" % dynamic_range
+            raise ValueError(msg)
 
     XW = view_as_windows(X, win_size=win_size)
     YW = view_as_windows(Y, win_size=win_size)
@@ -77,15 +95,15 @@ def structural_similarity(X, Y, win_size=7,
     C1 = (K1 * R)**2
     C2 = (K2 * R)**2
 
-    A1, A2, B1, B2 = (v[..., None, None] for v in
-                      (2 * ux * uy + C1,
-                       2 * vxy + C2,
-                       ux**2 + uy**2 + C1,
-                       vx + vy + C2))
+    A1 = 2 * ux * uy + C1
+    A2 = 2 * vxy + C2
+    B1 = ux**2 + uy**2 + C1
+    B2 = vx + vy + C2
 
     S = np.mean((A1 * A2) / (B1 * B2))
 
     if gradient:
+        A1, A2, B1, B2 = (v[..., None, None] for v in (A1, A2, B1, B2))
         local_grad = 2 / (NP * B1**2 * B2**2) * \
             (
             A1 * B1 * (B2 * XW - A2 * YW) - \
@@ -103,3 +121,4 @@ def structural_similarity(X, Y, win_size=7,
 
     else:
         return S
+
