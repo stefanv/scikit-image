@@ -22,7 +22,7 @@ but with very different mean structural similarity indices.
 
 '''
 
-from skimage import data, color, io, exposure, img_as_float
+from skimage import data, img_as_float
 from skimage.measure import structural_similarity as ssim
 
 import numpy as np

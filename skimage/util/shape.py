@@ -28,7 +28,6 @@ def view_as_windows(X, win_size=7):
 
     strides = X.strides
     row_jump, el_jump = strides
-    half_width = (win_size // 2)
 
     new_strides = (row_jump, el_jump, row_jump, el_jump)
     new_rows = r - win_size + 1
