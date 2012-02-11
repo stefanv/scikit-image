@@ -7,14 +7,20 @@ import numpy as np
 from ..util.dtype import dtype_range
 from ..util.shape import view_as_windows
 
+
 def structural_similarity(X, Y, win_size=7,
                           gradient=False, dynamic_range=None):
     """Compute the mean structural similarity index between two images.
 
+    If images `X` and `Y` are identical, the mean structural similarity (MSSIM)
+    is 1, while very distinct images will approach 0. MSSIM can be used to
+    assess the quality of image compression, filtering, etc. relative to
+    a reference image.
+
     Parameters
     ----------
-    X, Y : (N,N) ndarray
-        Images.
+    X, Y : (N, N) ndarray
+        Images to compare.
     win_size : int
         The side-length of the sliding window used in comparison.  Must
         be an odd value.
@@ -28,7 +34,7 @@ def structural_similarity(X, Y, win_size=7,
     Returns
     -------
     s : float
-        Strucutural similarity.
+        Mean structural similarity.
     grad : (N * N,) ndarray
         Gradient of the structural similarity index between X and Y.
         This is only returned if `gradient` is set to True.
@@ -103,3 +109,4 @@ def structural_similarity(X, Y, win_size=7,
 
     else:
         return S
+
