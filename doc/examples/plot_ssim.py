@@ -43,13 +43,13 @@ import matplotlib.pyplot as plt
 f, (ax0, ax1, ax2) = plt.subplots(1, 3)
 
 mse_none = mse(img, img)
-ssim_none = ssim(img, img, dynamic_range=img.max() - img.min())
+ssim_none = ssim(img, img, dynamic_range='image1')
 
 mse_noise = mse(img, img_noise)
-ssim_noise = ssim(img, img_noise, dynamic_range=img_const.max() - img_const.min())
+ssim_noise = ssim(img, img_noise, dynamic_range='image2')
 
 mse_const = mse(img, img_const)
-ssim_const = ssim(img, img_const, dynamic_range=img_noise.max() - img_noise.min())
+ssim_const = ssim(img, img_const, dynamic_range='image2')
 
 label = 'MSE: %2.f, SSIM: %.2f'
 
