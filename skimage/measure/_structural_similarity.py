@@ -83,15 +83,15 @@ def structural_similarity(X, Y, win_size=7,
     C1 = (K1 * R)**2
     C2 = (K2 * R)**2
 
-    A1, A2, B1, B2 = (v[..., None, None] for v in
-                      (2 * ux * uy + C1,
-                       2 * vxy + C2,
-                       ux**2 + uy**2 + C1,
-                       vx + vy + C2))
+    A1 = 2 * ux * uy + C1
+    A2 = 2 * vxy + C2
+    B1 = ux**2 + uy**2 + C1
+    B2 = vx + vy + C2
 
     S = np.mean((A1 * A2) / (B1 * B2))
 
     if gradient:
+        A1, A2, B1, B2 = (v[..., None, None] for v in (A1, A2, B1, B2))
         local_grad = 2 / (NP * B1**2 * B2**2) * \
             (
             A1 * B1 * (B2 * XW - A2 * YW) - \
