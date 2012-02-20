@@ -12,8 +12,12 @@ def configuration(parent_package='', top_path=None):
     config.add_data_dir('tests')
 
     cython(['_ctmf.pyx'], working_path=base_path)
+    cython(['_bilateral.pyx'], working_path=base_path)
 
     config.add_extension('_ctmf', sources=['_ctmf.c'],
+                         include_dirs=[get_numpy_include_dirs()])
+
+    config.add_extension('_bilateral', sources=['_bilateral.c'],
                          include_dirs=[get_numpy_include_dirs()])
 
     return config

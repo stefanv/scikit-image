@@ -98,3 +98,6 @@
 
 - Nicolas Poilvert
   Shape views: ``util.shape.view_as_windows`` and ``util.shape.view_as_blocks``
+
+- Nadav Horesh
+  Bilateral filter
