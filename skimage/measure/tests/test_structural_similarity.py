@@ -24,17 +24,19 @@ def test_ssim_image():
     assert(S1 < 0.3)
 
 def test_ssim_grad():
-    N = 30
-    X = np.random.random((N, N)) * 255
-    Y = np.random.random((N, N)) * 255
+    shape = (30, 30)
+    X = np.random.random(shape) * 255
+    Y = np.random.random(shape) * 255
 
-    def func(Y):
+    def func(Yflat):
+        Y = Yflat.reshape(shape)
         return ssim(X, Y, dynamic_range=255)
 
-    def grad(Y):
-        return ssim(X, Y, dynamic_range=255, gradient=True)[1]
-
-    assert(np.all(opt.check_grad(func, grad, Y) < 0.05))
+    def grad(Yflat):
+        Y = Yflat.reshape(shape)
+        s, g = ssim(X, Y, dynamic_range=255, gradient=True)
+        return g.ravel()
+    assert(np.all(opt.check_grad(func, grad, Y.ravel()) < 0.05))
 
 def test_ssim_dtype():
     N = 30
