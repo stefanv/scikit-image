@@ -25,3 +25,5 @@ script:
     - mkdir for_test
     - cd for_test
     - nosetests `$PYTHON -c "import os; import skimage; print(os.path.dirname(skimage.__file__))"`
+    - echo `$PYTHON -c "import os; import skimage; print(os.path.dirname(skimage.__file__))"`
+
