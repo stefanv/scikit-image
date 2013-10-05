@@ -1,9 +1,21 @@
 skimage (0.9.0-1) UNRELEASED; urgency=low
 
+  [ Stefan van der Walt ]
   * New upstream release (Closes: #693523).
   * Replace mentions of old package name.
 
- -- Stefan van der Walt <stefan@sun.ac.za>  Sat, 05 Oct 2013 13:21:19 +0200
+  [ Stefano Rivera ]
+  * Convert from python-support to dh_python2.
+  * Build with pybuild.
+    - Run unit tests in the debian/tmp directory after installation, so that
+      data files and compiled extensions are available. numpy's build system
+      doesn't copy data to the build directory.
+  * Split up the binary package with executable install scripts.
+    - Bumped debhelper compat to 9, and build-depends, similarly.
+  * Use dh_sphinxdoc to manage sphinx javascript.
+  * Run the doctests during build.
+
+ -- Stefan van der Walt <stefan@sun.ac.za>  Sat, 05 Oct 2013 19:21:20 +0200
 
 skimage (0.8.2-1) unstable; urgency=low
 
