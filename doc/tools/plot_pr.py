@@ -108,27 +108,27 @@ this_month = datetime(year=now.year, month=now.month, day=1,
 bins = [this_month - relativedelta(months=i) \
         for i in reversed(range(-1, month_duration))]
 bins = seconds_from_epoch(bins)
-n, bins, _ = plt.hist(dates_f, bins=bins)
+n, bins, _ = plt.hist(dates_f, bins=bins, color='dodgerblue')
 
 ax = plt.gca()
 ax.xaxis.set_major_formatter(FuncFormatter(date_formatter))
-ax.set_xticks(bins[:-1])
+ax.set_xticks(bins[2:-1:3])
 
 labels = ax.get_xticklabels()
 for l in labels:
     l.set_rotation(40)
-    l.set_size(10)
+    l.set_size(14)
 
-
+date_offset = 10 * 24 * 60 * 60 # 10 days
 for version, date in releases.items():
     date = seconds_from_epoch([date])[0]
-    plt.axvline(date, color='r', label=version)
-    plt.text(date, n.max() * 0.9, version, color='orange', rotation=90,
+    plt.axvline(date, color='orange', label=version, lw=2)
+    plt.text(date + date_offset, n.max() * 0.93, version, color='orange',
              fontsize=16)
 
 plt.title('Pull request activity').set_y(1.05)
 plt.xlabel('Date')
-plt.ylabel('PRs per month')
+plt.ylabel('PRs per month', color='dodgerblue')
 plt.subplots_adjust(top=0.875, bottom=0.225)
 
 import numpy as np
@@ -136,8 +136,9 @@ cumulative = np.cumsum(n)
 cumulative += len(dates) - cumulative[-1]
 
 ax2 = plt.twinx()
-ax2.plot(bins[:-1], cumulative, 'black', linewidth=2)
-ax2.set_ylabel('Total PRs')
+bin_centers = (bins[:-1] + bins[1:]) / 2
+ax2.plot(bin_centers, cumulative, 'purple', linewidth=2)
+ax2.set_ylabel('Total PRs', color='purple')
 
 plt.savefig('PRs.png')
 
