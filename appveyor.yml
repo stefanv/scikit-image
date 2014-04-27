@@ -10,7 +10,7 @@ install:
 
   - C:\Python27\Scripts\conda.exe update conda --yes --quiet
   - C:\Python27\Scripts\conda.exe create -n py2 --yes --quiet python=2
-  - C:\Python27\Scripts\conda.exe install -n py2 --yes --quiet numpy matplotlib pillow cython six nose
+  - C:\Python27\Scripts\conda.exe install -n py2 --yes --quiet numpy matplotlib pillow cython six nose setuptools
 
 build_script:
   - C:\Python27\envs\py2\python.exe setup.py install
