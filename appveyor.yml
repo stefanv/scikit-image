@@ -1,0 +1,16 @@
+install:
+  - pip install --use-mirrors conda
+
+  - conda install numpy
+  - conda install scipy
+  - conda install matplotlib
+  - conda install pillow
+  - conda install cython
+  - conda install six
+  - conda install nose
+
+build:
+  - python setup.py build_ext --inplace
+
+test:
+  - nosetests --exe -v --with-doctest skimage
