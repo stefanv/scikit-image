@@ -9,12 +9,12 @@ install:
   - C:\Python27\Scripts\conda.exe init
 
   - C:\Python27\Scripts\conda.exe update conda --yes --quiet
-  - C:\Python27\Scripts\conda.exe create -n py3 --yes --quiet python=3
-  - C:\Python27\Scripts\conda.exe install -n py3 --yes --quiet numpy scipy matplotlib pillow cython six nose
+  - C:\Python27\Scripts\conda.exe create -n py2 --yes --quiet python=2
+  - C:\Python27\Scripts\conda.exe install -n py2 --yes --quiet numpy scipy matplotlib pillow cython six nose
 
 build_script:
   - C:\Python27\python setup.py install
 
 test_script:
-  - set PATH=%PATH%;C:\Python27\envs\py3\Scripts
-  - C:\Python27\envs\py3\Scripts\nosetests.bat --exe -v --with-doctest skimage
+  - set PATH=%PATH%;C:\Python27\envs\py2\Scripts
+  - C:\Python27\envs\py2\Scripts\nosetests.bat --exe -v --with-doctest skimage
