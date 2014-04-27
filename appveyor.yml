@@ -1,4 +1,6 @@
 install:
+  - easy_install pip
+
   - pip install --use-mirrors conda
 
   - conda install numpy
