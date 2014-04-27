@@ -13,7 +13,7 @@ install:
   - C:\Python27\Scripts\conda.exe install -n py2 --yes --quiet numpy matplotlib pillow cython six nose
 
 build_script:
-  - C:\Python27\python setup.py install
+  - C:\Python27\envs\py2\python.exe setup.py install
 
 test_script:
   - set PATH=%PATH%;C:\Python27\envs\py2\Scripts
