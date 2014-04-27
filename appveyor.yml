@@ -9,8 +9,8 @@ install:
   - conda install six
   - conda install nose
 
-build:
+before_build:
   - python setup.py build_ext --inplace
 
-test:
+before_test:
   - nosetests --exe -v --with-doctest skimage
