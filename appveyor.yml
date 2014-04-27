@@ -1,3 +1,6 @@
+environment:
+  VS90COMNTOOLS: "%VS120COMNTOOLS%"
+
 install:
   # ps: (new-object net.webclient).DownloadFile('http://repo.continuum.io/miniconda/Miniconda3-3.4.2-Windows-x86_64.exe', 'C:\miniconda.exe')
   # C:\miniconda.exe /S
