@@ -1,19 +1,15 @@
 install:
-  - ps: (new-object net.webclient).DownloadFile('https://raw.github.com/pypa/pip/master/contrib/get-pip.py', 'get-pip.py')
-  - c:\Python27\python get-pip.py
+  - ps: (new-object net.webclient).DownloadFile('https://raw.github.com/pypa/pip/master/contrib/get-pip.py', 'C:\get-pip.py')
+  - c:\Python27\python C:\get-pip.py
 
-  - pip install --use-mirrors conda
+  - C:\Python27\Scripts\pip.exe install conda
 
-  - conda install numpy
-  - conda install scipy
-  - conda install matplotlib
-  - conda install pillow
-  - conda install cython
-  - conda install six
-  - conda install nose
+  - C:\Python27\Scripts\conda.exe init
+  - C:\Python27\Scripts\conda.exe create -n py3 --yes --quiet python=3 numpy scipy matplotlib pillow cython six nose
 
-before_build:
-  - python setup.py build_ext --inplace
+build_script:
+  - C:\Python27\python setup.py install
 
-before_test:
-  - nosetests --exe -v --with-doctest skimage
+test_script:
+  - set PATH=%PATH%;C:\Python27\envs\py3\Scripts
+  - C:\Python27\envs\py3\Scripts\nosetests.bat --exe -v --with-doctest skimage
