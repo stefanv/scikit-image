@@ -9,7 +9,7 @@ install:
   - C:\Python27\Scripts\conda.exe init
 
   - C:\Python27\Scripts\conda.exe update conda --yes --quiet
-  - C:\Python27\Scripts\conda.exe create -n py3 --yes --quiet python=3
+  - C:\Python27\Scripts\conda.exe create -n py3 --yes --quiet python=3.3
   - C:\Python27\Scripts\conda.exe install -n py3 --yes --quiet numpy matplotlib pillow cython six nose setuptools
 
 build_script:
