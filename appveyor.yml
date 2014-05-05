@@ -18,5 +18,5 @@ build_script:
 test_script:
   - set PATH=%PATH%;C:\Python27\envs\py3\Scripts
   - cd C:\
-  - C:\Python27\envs\py3\Scripts\nosetests.bat --exe -v --with-doctest skimage
+  - C:\Python27\envs\py3\Scripts\nosetests.bat --exe -v skimage
 
