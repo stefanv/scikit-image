@@ -27,16 +27,12 @@ retry () {
 }
 
 sudo apt-get install python-numpy python-scipy python-networkx cython \
-                     python-six python-pil
+                     python-six python-tk
 
 virtualenv -p python --system-site-packages ~/venv
 
 source ~/venv/bin/activate
 retry pip install wheel flake8 coveralls nose
-
-# install system tk for matplotlib
-sudo apt-get install python-tk
-
 retry pip install $WHEELHOUSE -r requirements.txt
 
 # clean up disk space
