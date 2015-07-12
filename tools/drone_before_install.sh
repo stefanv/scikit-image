@@ -34,9 +34,9 @@ virtualenv -p python --system-site-packages ~/venv
 
 source ~/venv/bin/activate
 retry pip install --upgrade setuptools pip
+python -c 'import setuptools; print("Setuptools version:", setuptools.__version__)'
 retry pip install wheel flake8 coveralls nose
 retry pip install $WHEELHOUSE -r requirements.txt
-python -c 'import setuptools; print("Setuptools version:", setuptools.__version__)'
 # clean up disk space
 sudo apt-get clean
 sudo rm -rf /tmp/*
