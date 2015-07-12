@@ -15,6 +15,7 @@ retry () {
     local count=$retry_max
     while [ $count -gt 0 ]; do
         "$@" && break
+        cat /home/ubuntu/.pip/pip.log
         count=$(($count - 1))
         sleep 1
     done
