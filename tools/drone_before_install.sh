@@ -42,11 +42,6 @@ retry pip install dask[array]
 retry pip install $WHEELHOUSE -r requirements.txt
 
 export PYTHONWARNINGS="default"
-
-# clean up disk space
-sudo apt-get clean
-sudo rm -rf /tmp/*
-
 export retry
 
 set +ex
