@@ -37,6 +37,7 @@ source ~/venv/bin/activate
 retry pip install --upgrade setuptools pip
 retry pip install wheel flake8 coveralls nose
 
+retry pip install $WHEELHOUSE numpy
 retry pip install dask[array]
 retry pip install $WHEELHOUSE -r requirements.txt
 
