@@ -26,8 +26,8 @@ retry () {
     return 0
 }
 
-sudo apt-get install python-numpy python-scipy python-networkx cython \
-                     python-six python-tk
+sudo apt-get install python3-numpy python3-scipy cython \
+                     python3-six python3-tk
 
 export PYTHONWARNINGS="ignore"
 
