@@ -29,12 +29,18 @@ retry () {
 sudo apt-get install python-numpy python-scipy python-networkx cython \
                      python-six python-tk
 
+export PYTHONWARNINGS="ignore"
+
 virtualenv -p python --system-site-packages ~/venv
 source ~/venv/bin/activate
 
 retry pip install --upgrade setuptools pip
 retry pip install wheel flake8 coveralls nose
+
+retry pip install dask[array]
 retry pip install $WHEELHOUSE -r requirements.txt
+
+export PYTHONWARNINGS="default"
 
 # clean up disk space
 sudo apt-get clean
