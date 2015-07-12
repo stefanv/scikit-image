@@ -8,4 +8,7 @@ source ~/venv/bin/activate
 python -c 'import numpy; print("numpy is:", numpy.__version__)'
 
 pip install -e .
+
+export PYTHONWARNINGS="ignore,all:::skimage"
+
 nosetests
