@@ -26,7 +26,8 @@ retry () {
     return 0
 }
 
-sudo apt-get install python3-tk
+sudo apt-get install python3-tk python3-numpy python3-scipy \
+     python-matplotlib python3-six cython
 
 export PYTHONWARNINGS="ignore"
 
@@ -36,10 +37,8 @@ source ~/venv/bin/activate
 retry pip install --upgrade setuptools pip
 retry pip install wheel flake8 coveralls nose
 
-retry pip install $WHEELHOUSE numpy scipy cython six
 retry pip install dask[array]
 retry pip install $WHEELHOUSE -r requirements.txt
-retry pip install $WHEELHOUSE cython
 
 export PYTHONWARNINGS="default"
 export retry
