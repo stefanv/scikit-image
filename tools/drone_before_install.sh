@@ -40,6 +40,7 @@ retry pip install wheel flake8 coveralls nose
 retry pip install $WHEELHOUSE numpy
 retry pip install dask[array]
 retry pip install $WHEELHOUSE -r requirements.txt
+retry pip install $WHEELHOUSE cython
 
 export PYTHONWARNINGS="default"
 export retry
