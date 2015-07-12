@@ -33,6 +33,7 @@ sudo apt-get install python-numpy python-scipy python-networkx cython \
 virtualenv -p python --system-site-packages ~/venv
 
 source ~/venv/bin/activate
+retry pip install --upgrade setuptools
 retry pip install wheel flake8 coveralls nose
 retry pip install $WHEELHOUSE -r requirements.txt
 
