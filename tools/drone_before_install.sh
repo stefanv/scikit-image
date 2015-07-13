@@ -31,7 +31,7 @@ sudo apt-get install python3-tk python3-numpy python3-scipy \
 
 export PYTHONWARNINGS="ignore"
 
-virtualenv -p python --system-site-packages ~/venv
+virtualenv -p python3 --system-site-packages ~/venv
 source ~/venv/bin/activate
 
 retry pip install --upgrade setuptools pip
