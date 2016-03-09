@@ -37,6 +37,7 @@ def _handle_input(image, selem, out, mask, out_dtype=None, pixel_size=1):
 
     selem = np.ascontiguousarray(img_as_ubyte(selem > 0))
     image = np.ascontiguousarray(image)
+    pixel_size = int(pixel_size)
 
     if mask is None:
         mask = np.ones(image.shape, dtype=np.uint8)
