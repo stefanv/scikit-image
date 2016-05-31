@@ -2,3 +2,4 @@ dask-optional-dep.patch
 search-html.patch
 fix-doc-links.patch
 doc-privacy.patch
+remove-dask-dependency.patch
