@@ -23,8 +23,7 @@ def view_as_blocks(arr_in, block_shape):
     Returns
     -------
     arr_out : ndarray
-        Block view of the input array.  If `arr_in` is non-contiguous, a copy
-        is made.
+        Block view of the input array.
 
     Examples
     --------
@@ -90,12 +89,6 @@ def view_as_blocks(arr_in, block_shape):
 
     # -- restride the array to build the block view
 
-    if not arr_in.flags.contiguous:
-        warn(RuntimeWarning("Cannot provide views on a non-contiguous input "
-                            "array without copying."))
-
-    arr_in = np.ascontiguousarray(arr_in)
-
     new_shape = tuple(arr_shape // block_shape) + tuple(block_shape)
     new_strides = tuple(arr_in.strides * block_shape) + arr_in.strides
 
@@ -126,8 +119,7 @@ def view_as_windows(arr_in, window_shape, step=1):
     Returns
     -------
     arr_out : ndarray
-        (rolling) window view of the input array.   If `arr_in` is
-        non-contiguous, a copy is made.
+        (rolling) window view of the input array.
 
     Notes
     -----
@@ -243,11 +235,6 @@ def view_as_windows(arr_in, window_shape, step=1):
         raise ValueError("`window_shape` is too small")
 
     # -- build rolling window view
-    if not arr_in.flags.contiguous:
-        warn(RuntimeWarning("Cannot provide views on a non-contiguous input "
-                            "array without copying."))
-
-    arr_in = np.ascontiguousarray(arr_in)
 
     slices = [slice(None, None, st) for st in step]
     window_strides = np.array(arr_in.strides)

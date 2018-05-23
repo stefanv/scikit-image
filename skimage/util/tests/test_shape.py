@@ -1,7 +1,7 @@
 import numpy as np
 
 from skimage._shared import testing
-from skimage._shared.testing import assert_equal, assert_warns
+from skimage._shared.testing import assert_equal, assert_array_equal
 from skimage.util.shape import view_as_blocks, view_as_windows
 
 
@@ -144,11 +144,14 @@ def test_view_as_windows_with_skip():
 
 
 def test_views_non_contiguous():
-    A = np.arange(16).reshape((4, 4))
+    A = np.arange(16 * 16).reshape((4, 4, 4, 4))
     A = A[::2, :]
+    B = np.ascontiguousarray(A)
 
-    assert_warns(RuntimeWarning, view_as_blocks, A, (2, 2))
-    assert_warns(RuntimeWarning, view_as_windows, A, (2, 2))
+    assert_array_equal(view_as_blocks(A, (2, 2, 1, 2)),
+                       view_as_blocks(B, (2, 2, 1, 2)))
+    assert_array_equal(view_as_windows(A, (2, 2, 1, 2)),
+                       view_as_windows(B, (2, 2, 1, 2)))
 
 
 def test_view_as_windows_step_tuple():
