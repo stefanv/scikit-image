@@ -96,7 +96,6 @@ sphinx_gallery_conf = {
     # path where to save gallery generated examples
     'gallery_dirs': 'auto_examples',
     'backreferences_dir': 'api',
-<<<<<<< HEAD
     'reference_url': {'skimage': None},
     'subsection_order': ExplicitOrder([
         '../examples/data',
@@ -110,13 +109,11 @@ sphinx_gallery_conf = {
         '../examples/applications',
         '../examples/developers',
     ]),
-}
-=======
     'reference_url'     : {
-            'skimage': None,},
+            'skimage': None,
+    },
     'image_scrapers' : ('matplotlib', ImageFileScraper())
-    }
->>>>>>> getting ready for config check
+}
 
 # Determine if the matplotlib has a recent enough version of the
 # plot_directive, otherwise use the local fork.
