@@ -15,8 +15,8 @@ def attach(module_name, submodules=None, submod_attrs=None):
       from .foo import someattr
 
     The idea is to replace a module's `__getattr__`, `__dir__`, and
-    `__all__`, such that all imports work exactly the way they did
-    before, except that they are only imported when used.
+    `__all__`, such that all imports work exactly the way they would
+    with normal imports, except that the import occurs upon first use.
 
     The typical way to call this function, replacing the above imports, is::
 
@@ -127,7 +127,7 @@ def load(fullname):
 
     spec = importlib.util.find_spec(fullname)
     if spec is None:
-        raise ModuleNotFoundError(f"No module name '{fullname}'")
+        raise ModuleNotFoundError(f"No module named '{fullname}'")
 
     module = importlib.util.module_from_spec(spec)
     sys.modules[fullname] = module
