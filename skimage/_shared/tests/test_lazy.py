@@ -29,9 +29,9 @@ def test_attach():
         "__all__": None,
     }
     assert locls.keys() == expected.keys()
-    for k, v in locls.items():
+    for k, v in expected.items():
         if v is not None:
-            assert expected[k] == v
+            assert locls[k] == v
 
 
 def test_lazy_load_basics():
