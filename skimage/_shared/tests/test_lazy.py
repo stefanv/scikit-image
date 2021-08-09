@@ -28,3 +28,64 @@ def test_attach():
     for k, v in locls.items():
         if v is not None:
             assert expected[k] == v
+
+
+def test_lazy_load_basics():
+    math = lazy.load("math")
+    anything_not_real = lazy.load("anything_not_real")
+
+    # Now test that accessing attributes does what it should
+    assert math.sin(math.pi) == pytest.approx(0, 1e-6)
+    # poor-mans pytest.raises for testing errors on attribute access
+    try:
+        anything_not_real.pi
+        assert False  # Should not get here
+    except ModuleNotFoundError:
+        pass
+    assert isinstance(anything_not_real, lazy.DelayedImportErrorModule)
+    # see if it changes for second access
+    try:
+        anything_not_real.pi
+        assert False  # Should not get here
+    except ModuleNotFoundError:
+        pass
+
+
+def test_lazy_load_impact_on_sys_modules():
+    math = lazy.load("math")
+    anything_not_real = lazy.load("anything_not_real")
+
+    assert type(math) == importlib.types.ModuleType
+    assert "math" in sys.modules
+    assert type(anything_not_real) == lazy.DelayedImportErrorModule
+    assert "anything_not_real" not in sys.modules
+
+    # only do this if numpy is installed
+    np_test = pytest.importorskip("numpy")
+    np = lazy.load("numpy")
+    assert type(np) == importlib.types.ModuleType
+    assert "numpy" in sys.modules
+
+    np.pi  # trigger load of numpy
+
+    assert type(np) == importlib.types.ModuleType
+    assert "numpy" in sys.modules
+
+
+def test_lazy_load_nonbuiltins():
+    sp = lazy.load("scipy")
+    np = lazy.load("numpy")
+    if isinstance(sp, lazy.DelayedImportErrorModule):
+        try:
+            sp.pi
+            assert False
+        except ModuleNotFoundError:
+            pass
+    elif isinstance(np, lazy.DelayedImportErrorModule):
+        try:
+            np.sin(np.pi)
+            assert False
+        except ModuleNotFoundError:
+            pass
+    else:
+        assert np.sin(sp.pi) == pytest.approx(0, 1e-6)
