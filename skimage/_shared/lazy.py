@@ -152,7 +152,7 @@ class DelayedImportErrorLoader(importlib.util.LazyLoader):
         module.__class__ = DelayedImportErrorModule
 
 
-class DelayedImportErrorModule(types.ModuleType):
+class DelayedImportErrorModule(importlib.types.ModuleType):
     def __getattribute__(self, attr):
         """Trigger a ModuleNotFoundError upon attribute access"""
         spec = super().__getattribute__("__spec__")

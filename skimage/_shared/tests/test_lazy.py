@@ -1,3 +1,7 @@
+import sys
+import importlib
+import pytest
+
 import skimage._shared.lazy as lazy
 
 
