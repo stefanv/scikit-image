@@ -4,6 +4,9 @@
 import sys
 from pathlib import Path
 
+from packaging.requirements import Requirement
+
+
 try:  # standard module since Python 3.11
     import tomllib as toml
 except ImportError:
@@ -26,6 +29,53 @@ def generate_requirement_file(name: str, req_list: list[str]) -> None:
     req_fname.write_text("\n".join(header + req_list) + "\n")
 
 
+def validate_joint_dependencies(all_deps: dict[str, list]):
+    all_req_names = set()
+    section_req = {}
+    sections = all_deps.keys()
+
+    for section in sections:
+        section_req_strings = all_deps[section]
+        section_req[section] = {}
+
+        # Change string descriptions to Requirement objects
+        for req in section_req_strings:
+            parsed_req = Requirement(req)
+            section_req[section][parsed_req.name] = parsed_req
+
+        all_req_names = all_req_names | set(section_req[section].keys())
+
+    # Exclude `numpy` from the checks, because we always build with the newest numpy available,
+    # while our runtime specification is much lower.
+
+    all_req_names = all_req_names - {"numpy"}
+    # Ensure that, for each requirement, its version is the same across all
+    # requirement sections
+    errors = []
+    for req in all_req_names:
+        requirement_in_sections = [s for s in sections if req in section_req[s]]
+
+        if len(sections) == 1:
+            # Requirement only in a single section
+            continue
+
+        versions = [section_req[s][req] for s in requirement_in_sections]
+        if not all(v == versions[0] for v in versions[1:]):
+            errors.append((req, requirement_in_sections, versions))
+
+    if errors:
+        print()
+        print("Conflicting requirements found in pyproject.toml:")
+        for error in errors:
+            name, sections, versions = error
+            print(f"- {name}: ", end="")
+            for s, v in zip(sections, versions):
+                print(f"{s} -> {v}; ", end="")
+            print()
+        print()
+        sys.exit(1)
+
+
 def main() -> None:
     pyproject = toml.loads((repo_dir / "pyproject.toml").read_text())
 
@@ -33,6 +83,13 @@ def main() -> None:
 
     for key, opt_list in pyproject["project"]["optional-dependencies"].items():
         generate_requirement_file(key, opt_list)
+
+    validate_joint_dependencies(
+        {
+            "default": pyproject["project"]["dependencies"],
+            **pyproject["project"]["optional-dependencies"],
+        }
+    )
 
 
 if __name__ == "__main__":
