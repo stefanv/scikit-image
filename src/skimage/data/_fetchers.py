@@ -13,6 +13,7 @@ from ..util.dtype import img_as_bool
 from ._registry import registry, registry_urls
 
 from .. import __version__
+import skimage
 
 import os.path as osp
 import os
@@ -143,7 +144,7 @@ def _create_image_fetcher(prefix=None):
     return image_fetcher, data_dir
 
 
-_image_fetcher, data_dir = _create_image_fetcher(prefix='tests')
+_image_fetcher, data_dir = _create_image_fetcher(prefix='src')
 
 
 def _skip_pytest_case_requiring_pooch(data_filename):
@@ -213,9 +214,10 @@ def _fetch(data_filename, prefix=None):
         If scikit-image is unable to connect to the internet but the
         dataset has not been downloaded yet.
     """
-    test_path = osp.join(data_dir, data_filename)
-    if osp.exists(test_path):
-        return test_path
+    base_path = os.path.dirname(skimage.__file__)
+    data_path_ = osp.join(base_path, data_filename)
+    if osp.exists(data_path_):
+        return data_path_
 
     expected_hash = registry[data_filename]
     if _image_fetcher is None:

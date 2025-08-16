@@ -7,6 +7,13 @@ import os
 import pytest
 
 
+@pytest.mark.parametrize(
+    'data_name', list(_image_fetcher.registry) if _image_fetcher is not None else []
+)
+def test_download_individual_data(data_name):
+    fetch(data_name)
+
+
 def test_download_all_with_pooch():
     # jni first wrote this test with the intention of
     # fully deleting the files in the data_dir,
