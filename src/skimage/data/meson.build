@@ -43,6 +43,8 @@ py3.install_sources([
   'text.png',
   'retina.jpg',
   'rocket.jpg',
+  'rank_filter_tests.npz',
+  'rank_filters_tests_3d.npz',
   'phantom.png',
   'motorcycle_disp.npz',
   'motorcycle_left.png',
