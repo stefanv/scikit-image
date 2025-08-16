@@ -144,7 +144,7 @@ def _create_image_fetcher(prefix=None):
     return image_fetcher, data_dir
 
 
-_image_fetcher, data_dir = _create_image_fetcher(prefix='src')
+_image_fetcher, data_dir = _create_image_fetcher(prefix='tests')
 
 
 def _skip_pytest_case_requiring_pooch(data_filename):
